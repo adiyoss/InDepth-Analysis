@@ -11,12 +11,12 @@ __author__ = 'yossiadi'
 
 batch_size = 32
 nb_epoch = 100
-save_dir = "models/last.word.model.net"
+save_dir = "models/order.word.model.net"
 early_stopping_patience = 8
 
 # loading the data
-x_train, y_train = gd.load_data("data/processed/last_word/index_test.txt")
-x_test, y_test = gd.load_data("data/processed/last_word/index_validation.txt")
+x_train, y_train = gd.load_data("data/processed/close_order_words/index_test.txt")
+x_test, y_test = gd.load_data("data/processed/close_order_words/index_validation.txt")
 
 print("\n=============================")
 print("Train data shape: ", x_train.shape)

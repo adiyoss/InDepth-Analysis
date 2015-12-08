@@ -2,7 +2,7 @@ import argparse
 import gc
 import reader as r
 import filters as f
-import first_word_dataset as db
+import create_db as db
 
 __author__ = 'yossiad'
 
@@ -34,5 +34,7 @@ if __name__ == "__main__":
     print "Total number of sentences left: ", len(f2_sent)
     gc.collect()
 
-    db.create_first_word_db(args.out_filename, f2_sent, args.repr, dictionary)
+    # db.create_first_word_db(args.out_filename, f2_sent, args.repr, dictionary)
+    # db.create_last_word_db(args.out_filename, f2_sent, args.repr, dictionary)
+    db.create_following_words_db(args.out_filename, f2_sent, args.repr, dictionary)
 
