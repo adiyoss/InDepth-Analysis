@@ -1,0 +1,10 @@
+Write everything in an organized file with all the results
+
+1) Different Optimization techniques
+2) Different Network Architectures
+3) Different dropout rates
+4) Different data sets i.e. different train and test sets
+5) Different weight initialization
+6) Try pre-training
+7) Run the training for many epochs
+8) Try to decrease the learning rate after few epochs
