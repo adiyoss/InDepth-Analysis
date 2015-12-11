@@ -1,6 +1,22 @@
 __author__ = 'yossiad'
 
 
+def read_files_float(path):
+    """
+    read all the lines in path
+    :param path:  the file path
+    :returns a list containing the file content
+    """
+    sen = list()
+    fid = file(path)
+    lines = fid.readlines()
+    fid.close()
+    for i in range(len(lines)):
+        numbers = [float(x) for x in lines[i][:-1].split()]
+        sen.append([i, numbers])
+    return sen
+
+
 def read_files(path):
     """
     read all the lines in path

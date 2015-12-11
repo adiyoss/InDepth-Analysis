@@ -14,8 +14,10 @@ if __name__ == "__main__":
                                             " exact words")
     parser.add_argument("repr", help="The path to the train/test/val representation file")
     parser.add_argument("out_filename", help="The output path")
-    parser.add_argument("words_repr", help="The path to the words representation file")
-    parser.add_argument("dictionary", help="The path to the dictionary")
+    parser.add_argument("--words_repr", help="The path to the words representation file",
+                        default="../../data/representation/orig/word_repr.txt")
+    parser.add_argument("--dictionary", help="The path to the dictionary",
+                        default="../../data/representation/orig/dictionary")
     args = parser.parse_args()
 
     dictionary = r.read_dictionary(args.dictionary, args.words_repr)
@@ -36,5 +38,6 @@ if __name__ == "__main__":
 
     # db.create_first_word_db(args.out_filename, f2_sent, args.repr, dictionary)
     # db.create_last_word_db(args.out_filename, f2_sent, args.repr, dictionary)
-    db.create_following_words_db(args.out_filename, f2_sent, args.repr, dictionary)
-
+    # db.create_following_words_db(args.out_filename, f2_sent, args.repr, dictionary)
+    # db.create_order_words_db(args.out_filename, f2_sent, args.repr, dictionary)
+    db.create_random_word_db(args.out_filename, f2_sent, args.repr, dictionary)
