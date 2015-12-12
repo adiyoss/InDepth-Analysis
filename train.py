@@ -11,12 +11,12 @@ __author__ = 'yossiadi'
 
 batch_size = 32
 nb_epoch = 100
-save_dir = "models/order.word.model.net"
+save_dir = "models/complex.word.order.model.net"
 early_stopping_patience = 8
 
 # loading the data
-x_train, y_train = gd.load_data("data/processed/close_order_words/index_test.txt")
-x_test, y_test = gd.load_data("data/processed/close_order_words/index_validation.txt")
+x_train, y_train = gd.load_data("data/processed/complex_order_words/train.txt", x_size=3000)
+x_test, y_test = gd.load_data("data/processed/complex_order_words/test.txt", x_size=3000)
 
 print("\n=============================")
 print("Train data shape: ", x_train.shape)
@@ -31,7 +31,7 @@ print("=============================\n")
 check_pointer = callbacks.ModelCheckpoint(filepath=save_dir, verbose=1, save_best_only=True)
 early_stop = callbacks.EarlyStopping(patience=early_stopping_patience, verbose=1)
 
-model = m.build_model()
+model = m.build_model(input_dim=3000)
 model.fit(x_train, y_train, batch_size=batch_size, nb_epoch=nb_epoch, show_accuracy=True, verbose=1,
           validation_data=(x_test, y_test), shuffle=True, callbacks=[check_pointer, early_stop])
 score = model.evaluate(x_test, y_test, show_accuracy=True, verbose=0)

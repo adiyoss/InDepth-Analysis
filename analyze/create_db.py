@@ -97,25 +97,25 @@ def create_random_word_db(output_path, sen_idx, sen_repr_path, words):
 
     fid = open(output_path, 'w')
     for i in range(len(sen_idx)):
-        idx_1 = randint(0, len(sen_idx[i][1])-1)
+        idx_1 = np.random.randint(len(sen_idx[i][1]))
 
-        target_wrd_pos = sen_idx[i][1][idx_1]-1
+        target_wrd_pos = sen_idx[i][1][idx_1]
         target_wrd_2 = target_wrd_pos
-        while target_wrd_2 not in sen_idx[i][1]:
+        while target_wrd_2 in sen_idx[i][1]:
             target_wrd_2 = np.random.randint(len(words))
 
         # positive example
         fid.write("1 ")
         fid.write(sen_repr[(sen_idx[i][0])][1][:-1])
         fid.write(" ")
-        fid.write(vector2string(words[target_wrd_pos][1]))
+        fid.write(vector2string(words[target_wrd_pos - 1][1]))
         fid.write("\n")
 
         # negative example
         fid.write("0 ")
         fid.write(sen_repr[(sen_idx[i][0])][1][:-1])
         fid.write(" ")
-        fid.write(vector2string(words[target_wrd_2][1]))
+        fid.write(vector2string(words[target_wrd_2 - 1][1]))
         fid.write("\n")
     fid.close()
 
@@ -183,10 +183,10 @@ def create_order_words_db(output_path, sen_idx, sen_repr_path, words):
     for i in range(len(sen_idx)):
         idx_1 = idx_2 = 0
         while idx_1 == idx_2:
-            idx_1 = randint((len(sen_idx[i][1])-1)/2, len(sen_idx[i][1])-1)
-            idx_2 = randint(0, (len(sen_idx[i][1])-1)/2)
-        target_wrd_1 = sen_idx[i][1][idx_1]-1
-        target_wrd_2 = sen_idx[i][1][idx_2]-1
+            idx_1 = np.random.randint(low=len(sen_idx[i][1])/2, high=len(sen_idx[i][1]))
+            idx_2 = np.random.randint(len(sen_idx[i][1])/2)
+        target_wrd_1 = sen_idx[i][1][idx_1] - 1
+        target_wrd_2 = sen_idx[i][1][idx_2] - 1
 
         # positive example
         fid.write("1 ")

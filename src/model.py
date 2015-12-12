@@ -2,7 +2,7 @@ from keras.layers.core import Dense
 from keras.layers.core import Activation
 from keras.layers.core import Dropout
 from keras.models import Sequential
-from keras.optimizers import SGD
+from keras.optimizers import SGD, Adagrad
 from theano.compile import mode
 
 __author__ = 'yossiadi'
@@ -10,8 +10,8 @@ __author__ = 'yossiadi'
 theano_mode = mode.FAST_RUN
 
 
-def build_model(input_dim=2000, output_dim=2, drop_out=0.6):
-    h_layer_size = 1500
+def build_model(input_dim=2000, output_dim=2, drop_out=0.7):
+    h_layer_size = 2000
     model = Sequential()
     model.add(Dense(input_dim=input_dim, output_dim=h_layer_size))
     model.add(Activation('relu'))

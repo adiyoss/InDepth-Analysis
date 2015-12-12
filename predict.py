@@ -11,8 +11,8 @@ np.random.seed(1237)  # for reproducibility
 # params
 batch_size = 16
 nb_epoch = 10
-test_path = "data/processed/first_word/test.txt"
-model_path = "models/first.word.model.net"
+test_path = "data/processed/random_word/test.txt"
+model_path = "models/random.word.model.net"
 
 # loading the data
 x_test, y_test = gd.load_data(test_path)
