@@ -1,0 +1,5 @@
+FIRST WORD: accuracy=95%
+LAST WORD: accuracy=85%
+RANDOM WORD: accuracy=81%
+SIMPLE ORDER: accuracy=94.5% , loss=0.1419
+COMPLEX ORDER: accuracy=64% , loss=0.863
