@@ -11,8 +11,8 @@ np.random.seed(1521)  # for reproducibility
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Create DB for the representation analysis, i.e. remove long/short sentences, remove "
-                    "sentences with known words")
+            description="Create DB for the representation analysis, i.e. remove long/short sentences, remove "
+                        "sentences with known words")
     parser.add_argument("in_filename", help="The path to the train/test/val file, it should be in index format not"
                                             " exact words")
     parser.add_argument("repr", help="The path to the train/test/val representation file")
@@ -39,8 +39,10 @@ if __name__ == "__main__":
     print "Total number of sentences left: ", len(f2_sent)
     gc.collect()
 
-    # db.create_first_word_db(args.out_filename, f2_sent, args.repr, dictionary)
-    # db.create_last_word_db(args.out_filename, f2_sent, args.repr, dictionary)
+    db.create_first_word_db(args.out_filename, f2_sent, args.repr, dictionary)
+    db.create_last_word_db(args.out_filename, f2_sent, args.repr, dictionary)
     # db.create_following_words_db(args.out_filename, f2_sent, args.repr, dictionary)
-    db.create_order_words_db(args.out_filename, f2_sent, args.repr, dictionary)
+    # db.create_order_words_db(args.out_filename, f2_sent, args.repr, dictionary)
     # db.create_random_word_db(args.out_filename, f2_sent, args.repr, dictionary)
+    # db.create_last_word_multi_class_db(args.out_filename, f2_sent, args.repr, dictionary)
+    # db.create_sentence_length_db(args.out_filename, f2_sent, args.repr, dictionary)

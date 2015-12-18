@@ -1,5 +1,6 @@
-FIRST WORD: accuracy=95%
+FIRST WORD: accuracy=95%, multi-class version (NEED MORE DATA!): accuracy=83% (with Adagrad)
 LAST WORD: accuracy=85%
-RANDOM WORD: accuracy=81%
+
+RANDOM WORD: accuracy=81%, with more data ~84%, with more data and bigger network ~88.5% accuracy
 SIMPLE ORDER: accuracy=94.5% , loss=0.1419
-COMPLEX ORDER: accuracy=64% , loss=0.863
+COMPLEX ORDER: accuracy=64% , loss=0.863, with more data and bigger network ~64% accuracy and 0.6052 loss, on the 1st and 2nd test sets ~0.69%
