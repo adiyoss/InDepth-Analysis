@@ -17,8 +17,34 @@ DATA STATS TEST:
     Number of different first word: 7927, Last word stats: 0.159
     Sentence lengths:  {0: 1920, 1: 5350, 2: 4308, 3: 3977, 4: 3282, 5: 6163}
 
+SHARED WORDS BETWEEN TRAIN, TEST AND VALIDATION
+    Shared words between train and test: 27287
+    Percentage from test: 0.97
+    Percentage from train: 0.59
+
+    Shared words between train and validation: 27865
+    Percentage from validation: 0.97
+    Percentage from train: 0.60
+
+    Shared words between test and validation: 20436
+    Percentage from validation: 0.71
+    Percentage from test: 0.73
+
+SHARED SENTENCES BETWEEN TRAIN, TEST AND VALIDATION
+    Shared sentences between train and test: 104
+    Percentage from test: 0.00420
+    Percentage from train: 0.00070
+
+    Shared sentences between train and validation: 117
+    Percentage from validation: 0.00473
+    Percentage from train: 0.00079
+
+    Shared sentences between validation and test: 63
+    Percentage from validation: 0.00255
+    Percentage from test: 0.00254
+
 In all of the above results the optimizer is Adam.
-Need to find out way does the loss keeps growing - maybe dropout.
+Need to find out why does the loss keeps growing - maybe dropout.
 ==================================================================================================
                                    SMALL DATA
 ==================================================================================================
