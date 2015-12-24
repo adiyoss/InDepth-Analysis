@@ -15,6 +15,9 @@ def precision_at_k(y, y_hat, k=5):
 
 
 def plot_accuracy_vs_distance(y, y_hat, order_file_path):
+    INFINITY = 1000
+    bins = [[2, 6], [7, 11], [12, 16], [17, 21], [22, 26], [27, INFINITY]]
+
     fid = open(order_file_path)
     lines = fid.readlines()
     fid.close()
@@ -24,15 +27,18 @@ def plot_accuracy_vs_distance(y, y_hat, order_file_path):
         cur_acc = y_hat[i] == y[i][0]
         order = lines[i].split()
         duration = np.abs(int(order[1]) - int(order[0]))
-        if duration in acc:
-            acc[duration].append(cur_acc)
-        else:
-            acc[duration] = list()
-            acc[duration].append(cur_acc)
+        for b in bins:
+            if b[0] <= duration <= b[1]:
+                if b[0] in acc:
+                    acc[b[0]].append(cur_acc)
+                else:
+                    acc[b[0]] = list()
+                    acc[b[0]].append(cur_acc)
 
     plot_acc = list()
     for val in acc:
         plot_acc.append(float(np.sum(acc[val])) / len(acc[val]))
+        print("B: %s, P: %s" % (val, len(acc[val])))
 
     plt.title("Accuracy vs. Word Distance")
     plt.ylabel('Accuracy')

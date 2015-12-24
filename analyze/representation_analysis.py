@@ -1,7 +1,7 @@
 import argparse
-import gc
+import os
+
 import reader as r
-import filters as f
 import create_db as db
 import numpy as np
 
@@ -16,7 +16,8 @@ if __name__ == "__main__":
     parser.add_argument("in_filename", help="The path to the train/test/val file, it should be in index format not"
                                             " exact words")
     parser.add_argument("repr", help="The path to the train/test/val representation file")
-    parser.add_argument("out_filename", help="The output path")
+    parser.add_argument("out_filename", help="The output path should be dir")
+    parser.add_argument("file_name", help="the file name to be created for each test")
     parser.add_argument("--words_repr", help="The path to the words representation file",
                         default="../data/orig/word_repr.txt")
     parser.add_argument("--dictionary", help="The path to the dictionary",
@@ -26,23 +27,55 @@ if __name__ == "__main__":
     dictionary = r.read_dictionary(args.dictionary, args.words_repr)
     print "Dictionary size is: ", len(dictionary)
 
-    orig_sent = r.read_files(args.in_filename)
-    print "Number of original sentences is: ", len(orig_sent)
+    sent = r.read_files(args.in_filename)
+    print "Number of original sentences is: ", len(sent)
 
-    f1_sent = f.remove_long_short_sentences(orig_sent)
-    print "Number of sentences filtered by length is: ", (len(orig_sent) - len(f1_sent))
-    gc.collect()
+    # =========== FIRST WORD =========== #
+    print("\nCreate first word db ...")
+    first_word_path = args.out_filename+"first_word/"
+    first_word_filename = first_word_path+args.file_name
+    if not os.path.exists(first_word_path):
+        os.mkdir(args.out_filename+"first_word")
+    db.create_first_word_db(first_word_filename, sent, args.repr, dictionary)
+    print("Done.")
+    # ================================== #
 
-    f2_sent = f.remove_unknown(f1_sent)
-    print "Number of sentences filtered because containing unknown word is: ", (len(f1_sent) - len(f2_sent))
-    print ""
-    print "Total number of sentences left: ", len(f2_sent)
-    gc.collect()
+    # ============ LAST WORD =========== #
+    print("\nCreate last word db ...")
+    last_word_path = args.out_filename+"last_word/"
+    last_word_filename = last_word_path+args.file_name
+    if not os.path.exists(last_word_path):
+        os.mkdir(last_word_path)
+    db.create_last_word_db(last_word_filename, sent, args.repr, dictionary)
+    print("Done.")
+    # ================================== #
 
-    db.create_first_word_db(args.out_filename, f2_sent, args.repr, dictionary)
-    db.create_last_word_db(args.out_filename, f2_sent, args.repr, dictionary)
-    # db.create_following_words_db(args.out_filename, f2_sent, args.repr, dictionary)
-    # db.create_order_words_db(args.out_filename, f2_sent, args.repr, dictionary)
-    # db.create_random_word_db(args.out_filename, f2_sent, args.repr, dictionary)
-    # db.create_last_word_multi_class_db(args.out_filename, f2_sent, args.repr, dictionary)
-    # db.create_sentence_length_db(args.out_filename, f2_sent, args.repr, dictionary)
+    # =========== RANDOM WORD ========== #
+    print("\nCreate random word db ...")
+    random_word_path = args.out_filename+"random_word/"
+    random_word_filename = random_word_path+args.file_name
+    if not os.path.exists(random_word_path):
+        os.mkdir(random_word_path)
+    db.create_random_word_db(random_word_filename, sent, args.repr, dictionary)
+    print("Done.")
+    # ================================== #
+
+    # ========= SENTENCE LENGTH ======== #
+    print("\nCreate sentence length db ...")
+    sen_len_path = args.out_filename+"sen_len/"
+    sen_len_filename = sen_len_path+args.file_name
+    if not os.path.exists(sen_len_path):
+        os.mkdir(sen_len_path)
+    db.create_sentence_length_db(sen_len_filename, sent, args.repr, dictionary)
+    print("Done.")
+    # ================================== #
+
+    # =========== ORDER WORDS ========== #
+    print("\nCreate order words db ...")
+    order_path = args.out_filename+"order/"
+    order_filename = order_path+args.file_name
+    if not os.path.exists(order_path):
+        os.mkdir(order_path)
+    db.create_following_words_db(order_filename, sent, args.repr, dictionary)
+    print("Done.")
+    # ================================== #

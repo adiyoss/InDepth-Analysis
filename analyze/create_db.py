@@ -123,28 +123,30 @@ def create_random_word_db(output_path, sen_idx, sen_repr_path, words):
     for i in range(len(lines)):
         sen_repr.append([i, lines[i]])
 
+    fid = open(output_path, 'w')
     for i in range(len(sen_idx)):
-        for j in range(len(sen_idx[i][1])):
-            idx_1 = j
-            target_wrd_pos = sen_idx[i][1][idx_1]
+        # for j in range(len(sen_idx[i][1])):
 
-            target_wrd_2 = target_wrd_pos
-            while target_wrd_2 in sen_idx[i][1]:
-                target_wrd_2 = np.random.randint(len(words))
+        idx_1 = np.random.randint(len(sen_idx[i][1]))
+        target_wrd_pos = sen_idx[i][1][idx_1]
 
-            # positive example
-            fid.write("1 ")
-            fid.write(sen_repr[(sen_idx[i][0])][1][:-1])
-            fid.write(" ")
-            fid.write(vector2string(words[target_wrd_pos - 1][1]))
-            fid.write("\n")
+        target_wrd_2 = target_wrd_pos
+        while target_wrd_2 in sen_idx[i][1]:
+            target_wrd_2 = np.random.randint(len(words))
 
-            # negative example
-            fid.write("0 ")
-            fid.write(sen_repr[(sen_idx[i][0])][1][:-1])
-            fid.write(" ")
-            fid.write(vector2string(words[target_wrd_2 - 1][1]))
-            fid.write("\n")
+        # positive example
+        fid.write("1 ")
+        fid.write(sen_repr[(sen_idx[i][0])][1][:-1])
+        fid.write(" ")
+        fid.write(vector2string(words[target_wrd_pos - 1][1]))
+        fid.write("\n")
+
+        # negative example
+        fid.write("0 ")
+        fid.write(sen_repr[(sen_idx[i][0])][1][:-1])
+        fid.write(" ")
+        fid.write(vector2string(words[target_wrd_2 - 1][1]))
+        fid.write("\n")
     fid.close()
 
 
@@ -275,10 +277,6 @@ def create_sentence_length_db(output_path, sen_idx, sen_repr_path, words):
         sen_len = len(sen_idx[i][1])
         for b in range(len(bins)):
             if int(bins[b][0]) <= int(sen_len) <= int(bins[b][1]):
-                print "\n"
-                print sen_len
-                print bins[b]
-                print "\n"
                 target = b
         fid.write(str(target) + " ")
         fid.write(sen_repr[(sen_idx[i][0])][1][:-1])

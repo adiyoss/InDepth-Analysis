@@ -30,9 +30,5 @@ def load_data(train_path, x_size=2000, y_size=2):
         values = lines[i].split()
         target = float(values[0])
         y_train[i][int(target)] = 1.0
-        # if target == 1.0:
-        #     y_train[i] = [0, 1]
-        # else:
-        #     y_train[i] = [1, 0]
         x_train[i] = [float(x) for x in values[1:x_size+1]]
     return x_train, y_train

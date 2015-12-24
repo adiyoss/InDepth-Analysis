@@ -11,16 +11,15 @@ np.random.seed(1237)  # for reproducibility
 
 # params
 batch_size = 16
-nb_epoch = 10
-test_path = "data/processed/small_data/complex_order_words/test_s.txt"
-model_path = "models/complex.big.big.word.order.model.net"
-order_path = "data/processed/small_data/complex_order_words/order.txt"
+test_path = "data/processed/order/test.txt"
+model_path = "models/order.model.net_1"
+order_path = "data/processed/order/order.txt"
 
 # loading the data
-x_test, y_test = gd.load_data(test_path)
+x_test, y_test = gd.load_data(test_path, x_size=3000)
 
 # build the model
-model = m.build_model()
+model = m.build_model(input_dim=3000)
 model.load_weights(model_path)
 # get predictions
 y_hat = model.predict_classes(x_test, batch_size=batch_size)

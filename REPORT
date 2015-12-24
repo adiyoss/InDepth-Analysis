@@ -1,6 +1,31 @@
+==================================================================================================
+                                    BIG DATA
+==================================================================================================
+FIRST WORD: 88% accuracy
+LAST WORD: 74% accuracy
+RANDOM WORD: 85% accuracy
+SENTENCE LENGTH: 92% accuracy
+WORD ORDER: 77.3% accuracy
+
+DATA STATS TRAIN:
+    Number of different first word: 15865, First word stats: 0.317
+    Number of different first word: 20367, Last word stats: 0.407
+    Sentence lengths:  {0: 7840, 1: 25569, 2: 22840, 3: 19555, 4: 17692, 5: 56504}
+
+DATA STATS TEST:
+    Number of different first word: 5157, First word stats: 0.103
+    Number of different first word: 7927, Last word stats: 0.159
+    Sentence lengths:  {0: 1920, 1: 5350, 2: 4308, 3: 3977, 4: 3282, 5: 6163}
+
+In all of the above results the optimizer is Adam.
+Need to find out way does the loss keeps growing - maybe dropout.
+==================================================================================================
+                                   SMALL DATA
+==================================================================================================
 FIRST WORD: accuracy=95%, multi-class version (NEED MORE DATA!): accuracy=83% (with Adagrad)
 LAST WORD: accuracy=85%
-
 RANDOM WORD: accuracy=81%, with more data ~84%, with more data and bigger network ~88.5% accuracy
+
 SIMPLE ORDER: accuracy=94.5% , loss=0.1419
 COMPLEX ORDER: accuracy=64% , loss=0.863, with more data and bigger network ~64% accuracy and 0.6052 loss, on the 1st and 2nd test sets ~0.69%
+==================================================================================================
