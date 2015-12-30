@@ -4,8 +4,8 @@
 FIRST WORD: 88% accuracy
 LAST WORD: 74% accuracy
 RANDOM WORD: 85% accuracy
-SENTENCE LENGTH: 92% accuracy
-WORD ORDER: 77.3% accuracy
+SENTENCE LENGTH: 92% accuracy (6 bins, arc: 1000 -> 2000 -> 6)
+WORD ORDER: 87% accuracy
 
 DATA STATS TRAIN:
     Number of different first word: 15865, First word stats: 0.317
@@ -15,7 +15,7 @@ DATA STATS TRAIN:
 DATA STATS TEST:
     Number of different first word: 5157, First word stats: 0.103
     Number of different first word: 7927, Last word stats: 0.159
-    Sentence lengths:  {0: 1920, 1: 5350, 2: 4308, 3: 3977, 4: 3282, 5: 6163}
+    Sentence lengths:  {0: 1920, 1: 5350, 2: 4308,  3: 3977, 4: 3282, 5: 6163}
 
 In all of the above results the optimizer is Adam.
 Need to find out way does the loss keeps growing - maybe dropout.

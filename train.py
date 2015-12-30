@@ -11,13 +11,13 @@ __author__ = 'yossiadi'
 
 batch_size = 100
 nb_epoch = 100
-save_dir = "models/order.model.net"
-early_stopping_patience = 8
+save_dir = "models/order.checker.model.net"
+early_stopping_patience = 5
 
 # loading the data
-x_train, y_train = gd.load_data("data/processed/order/train.txt", x_size=3000)
-x_test, y_test = gd.load_data("data/processed/order/test.txt", x_size=3000)
-x_val, y_val = gd.load_data("data/processed/order/test.txt", x_size=3000)
+x_train, y_train = gd.load_data("data/processed/order_checker/train.txt", x_size=3000)
+x_test, y_test = gd.load_data("data/processed/order_checker/test.txt", x_size=3000)
+x_val, y_val = gd.load_data("data/processed/order_checker/val.txt", x_size=3000)
 
 print("\n=============================")
 print("Train data shape: ", x_train.shape)

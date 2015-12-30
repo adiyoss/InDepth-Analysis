@@ -16,7 +16,7 @@ def precision_at_k(y, y_hat, k=5):
 
 def plot_accuracy_vs_distance(y, y_hat, order_file_path):
     INFINITY = 1000
-    bins = [[2, 6], [7, 11], [12, 16], [17, 21], [22, 26], [27, INFINITY]]
+    bins = [[2, 4], [5, 7], [8, 10], [11, 13], [14, 16], [17, 19], [20, 22], [23, 25], [26, 28], [29, INFINITY]]
 
     fid = open(order_file_path)
     lines = fid.readlines()

@@ -198,6 +198,56 @@ def create_following_words_db(output_path, sen_idx, sen_repr_path, words):
     word_order_file.close()
 
 
+def create_checker_word_order_db(output_path, sen_idx, sen_repr_path, words):
+    """
+    Create db for the two last words, i.e. any positive example contains the sentence representation,
+    the last word and the one before it. In negative examples we flipped
+    the words order
+    :param output_path: the path to save the data
+    :param sen_idx: a mapping between sentence id to its indices
+    :param sen_repr_path: a mapping between sentence id to its representation
+    :param words: a mapping between word id to its representation
+    """
+    sen_repr = list()
+    fid = open(sen_repr_path)
+    lines = fid.readlines()
+    fid.close()
+    for i in range(len(lines)):
+        sen_repr.append([i, lines[i]])
+
+    word_order_file = open("order.txt", 'w')
+    fid = open(output_path, 'w')
+    sen_repr_size = len(sen_repr)
+    for i in range(len(sen_idx)):
+        idx_1 = np.random.randint(low=0, high=len(sen_idx[i][1]) / 2)
+        idx_2 = np.random.randint(low=len(sen_idx[i][1]) / 2 + 1, high=len(sen_idx[i][1]))
+        target_wrd_1 = sen_idx[i][1][idx_1] - 1
+        target_wrd_2 = sen_idx[i][1][idx_2] - 1
+
+        sen_id = np.random.randint(sen_repr_size)
+        # positive example
+        fid.write("1 ")
+        fid.write(sen_repr[sen_id])
+        fid.write(" ")
+        fid.write(vector2string(words[target_wrd_1][1]))
+        fid.write(" ")
+        fid.write(vector2string(words[target_wrd_2][1]))
+        fid.write("\n")
+        word_order_file.write(str(idx_1) + " " + str(idx_2) + "\n")
+
+        # negative example
+        fid.write("0 ")
+        fid.write(sen_repr[sen_id])
+        fid.write(" ")
+        fid.write(vector2string(words[target_wrd_2][1]))
+        fid.write(" ")
+        fid.write(vector2string(words[target_wrd_1][1]))
+        fid.write("\n")
+        word_order_file.write(str(idx_2) + " " + str(idx_1) + "\n")
+    fid.close()
+    word_order_file.close()
+
+
 def create_order_words_db(output_path, sen_idx, sen_repr_path, words):
     """
     Create db for any order words, i.e. any positive example contains the sentence representation,
