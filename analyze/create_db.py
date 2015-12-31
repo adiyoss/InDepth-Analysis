@@ -225,9 +225,12 @@ def create_checker_word_order_db(output_path, sen_idx, sen_repr_path, words):
         target_wrd_2 = sen_idx[i][1][idx_2] - 1
 
         sen_id = np.random.randint(sen_repr_size)
+        while sen_id == sen_idx[i][0]:
+            sen_id = np.random.randint(sen_repr_size)
+
         # positive example
         fid.write("1 ")
-        fid.write(sen_repr[sen_id])
+        fid.write(sen_repr[sen_id][1][:-1])
         fid.write(" ")
         fid.write(vector2string(words[target_wrd_1][1]))
         fid.write(" ")
@@ -237,7 +240,7 @@ def create_checker_word_order_db(output_path, sen_idx, sen_repr_path, words):
 
         # negative example
         fid.write("0 ")
-        fid.write(sen_repr[sen_id])
+        fid.write(sen_repr[sen_id][1][:-1])
         fid.write(" ")
         fid.write(vector2string(words[target_wrd_2][1]))
         fid.write(" ")
@@ -313,7 +316,10 @@ def create_sentence_length_db(output_path, sen_idx, sen_repr_path, words):
     :param words: a mapping between word id to its representation
     """
     INFINITY = 1000
-    bins = [[2, 5], [6, 10], [11, 15], [16, 20], [21, 25], [26, INFINITY]]
+    # bins = [[2, 5], [6, 10], [11, 15], [16, 20], [21, 25], [26, INFINITY]]  # 6 bins
+    bins = [[5, 8], [10, 12], [13, 16], [17, 20], [21, 24], [25, 28], [29, 32], [33, INFINITY]]  # 8 bins
+    # bins = [[5, 7], [8, 10], [11, 13], [14, 16], [17, 19], [19, 21], [22, 24], [25, 27], [28, 30], [31, 33],
+    # [34, 36], [37, 39], [40, INFINITY]]  # 13 bins
     sen_repr = list()
     fid = open(sen_repr_path)
     lines = fid.readlines()

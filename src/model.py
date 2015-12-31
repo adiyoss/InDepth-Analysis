@@ -11,7 +11,7 @@ theano_mode = mode.FAST_RUN
 
 
 def build_model(input_dim=2000, output_dim=2, drop_out=0.8):
-    h_layer_size = 2000
+    h_layer_size = input_dim
     model = Sequential()
     model.add(Dense(input_dim=input_dim, output_dim=h_layer_size))
     model.add(Activation('relu'))

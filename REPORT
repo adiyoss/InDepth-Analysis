@@ -1,11 +1,14 @@
 ==================================================================================================
                                     BIG DATA
 ==================================================================================================
-FIRST WORD: 88% accuracy
-LAST WORD: 74% accuracy
-RANDOM WORD: 85% accuracy
-SENTENCE LENGTH: 92% accuracy (6 bins, arc: 1000 -> 2000 -> 6)
-WORD ORDER: 87% accuracy
+FIRST WORD: 88% accuracy (2000 -> 2000 -> 2)
+LAST WORD: 74% accuracy (2000 -> 2000 -> 2)
+RANDOM WORD: 85% accuracy (2000 -> 2000 -> 2)
+SENTENCE LENGTH (6 bins, arc: 1000 -> 2000 -> 6): 92% accuracy
+SENTENCE LENGTH (8 bins, arc: 1000 -> 2000 -> 8): 86.6% accuracy
+SENTENCE LENGTH (13 bins, arc: 1000 -> 2000 -> 13): 79.6% accuracy
+WORD ORDER: 87% accuracy (3000 -> 3000 -> 2)
+WORD ORDER CHECKER: 63% accuracy (3000 -> 3000 -> 2)
 
 DATA STATS TRAIN:
     Number of different first word: 15865, First word stats: 0.317

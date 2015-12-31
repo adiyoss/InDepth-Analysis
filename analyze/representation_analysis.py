@@ -80,12 +80,12 @@ if __name__ == "__main__":
     # print("Done.")
     # # ================================== #
 
-    # ======= ORDER WORDS CHECKER ====== #
-    print("\nCreate checker for word order db ...")
-    order_path_check = args.out_filename+"order_checker/"
-    order_check_filename = order_path_check+args.file_name
-    if not os.path.exists(order_path_check):
-        os.mkdir(order_path_check)
-    db.create_following_words_db(order_check_filename, sent, args.repr, dictionary)
-    print("Done.")
-    # ================================== #
+    # # ======= ORDER WORDS CHECKER ====== #
+    # print("\nCreate checker for word order db ...")
+    # order_path_check = args.out_filename+"order_checker/"
+    # order_check_filename = order_path_check+args.file_name
+    # if not os.path.exists(order_path_check):
+    #     os.mkdir(order_path_check)
+    # db.create_checker_word_order_db(order_check_filename, sent, args.repr, dictionary)
+    # print("Done.")
+    # # ================================== #

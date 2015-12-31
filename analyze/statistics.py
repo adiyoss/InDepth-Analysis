@@ -29,7 +29,10 @@ def run_stats(idx_path, dict_size):
 
         s_len = len(s)
         INFINITY = 1000
-        bins = [[2, 5], [6, 10], [11, 15], [16, 20], [21, 25], [26, INFINITY]]
+        # bins = [[2, 5], [6, 10], [11, 15], [16, 20], [21, 25], [26, INFINITY]] # 6 bins
+        bins = [[5, 8], [10, 12], [13, 16], [17, 20], [21, 24], [25, 28], [29, 32], [33, INFINITY]] # 8 bins
+        # bins = [[5, 7], [8, 10], [11, 13], [14, 16], [17, 19], [19, 21], [22, 24], [25, 27], [28, 30], [31, 33],
+            # [34, 36], [37, 39], [40, INFINITY]] # 13 bins
         for i, b in enumerate(bins):
             if b[0] <= s_len <= b[1]:
                 if i in sen_lens:
@@ -124,7 +127,7 @@ if __name__ == "__main__":
                                             " exact words")
     parser.add_argument("--dict_size", help="The path to the dictionary", default=50000)
     args = parser.parse_args()
-    # run_stats(args.in_filename, args.dict_size)
+    run_stats(args.in_filename, args.dict_size)
 
     # stat_mutual_words("../../data/representation/orig/test.txt", "../../data/representation/orig/val.txt")
-    stat_mutual_sentences("../../data/representation/orig/test.txt", "../../data/representation/orig/val.txt")
+    # stat_mutual_sentences("../../data/representation/orig/test.txt", "../../data/representation/orig/val.txt")
