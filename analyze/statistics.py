@@ -30,9 +30,10 @@ def run_stats(idx_path, dict_size):
         s_len = len(s)
         INFINITY = 1000
         # bins = [[2, 5], [6, 10], [11, 15], [16, 20], [21, 25], [26, INFINITY]] # 6 bins
-        bins = [[5, 8], [10, 12], [13, 16], [17, 20], [21, 24], [25, 28], [29, 32], [33, INFINITY]] # 8 bins
-        # bins = [[5, 7], [8, 10], [11, 13], [14, 16], [17, 19], [19, 21], [22, 24], [25, 27], [28, 30], [31, 33],
-            # [34, 36], [37, 39], [40, INFINITY]] # 13 bins
+        bins = [[5, 8], [9, 12], [13, 16], [17, 20], [21, 25], [26, 29], [30, 33], [34, INFINITY]]  # 8 bins
+        # bins = [[5, 8], [9, 12], [13, 16], [17, 20], [21, 25], [26, INFINITY]]
+        # bins = [[5, 7], [8, 10], [11, 13], [14, 16], [17, 19], [20, 22], [23, 25], [26, 28], [29, 31], [32, 34],
+        #         [35, 37], [38, INFINITY]]  # 12 bins
         for i, b in enumerate(bins):
             if b[0] <= s_len <= b[1]:
                 if i in sen_lens:
@@ -90,8 +91,8 @@ def stat_mutual_words(train_path, test_path):
 
     inter = set.intersection(train, test)
     print("Shared words between train and test: %d" % (len(inter)))
-    print("Percentage from test: %.2f" % (float(len(inter))/len(test)))
-    print("Percentage from train: %.2f" % (float(len(inter))/len(train)))
+    print("Percentage from test: %.2f" % (float(len(inter)) / len(test)))
+    print("Percentage from train: %.2f" % (float(len(inter)) / len(train)))
 
 
 def stat_mutual_sentences(train_path, test_path):
@@ -116,13 +117,13 @@ def stat_mutual_sentences(train_path, test_path):
 
     inter = set.intersection(train, test)
     print("Shared words between train and test: %d" % (len(inter)))
-    print("Percentage from test: %.5f" % (float(len(inter))/len(test)))
-    print("Percentage from train: %.5f" % (float(len(inter))/len(train)))
+    print("Percentage from test: %.5f" % (float(len(inter)) / len(test)))
+    print("Percentage from train: %.5f" % (float(len(inter)) / len(train)))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Get statistics for the words location in the sentence.")
+            description="Get statistics for the words location in the sentence.")
     parser.add_argument("in_filename", help="The path to the train/test/val file, it should be in index format not"
                                             " exact words")
     parser.add_argument("--dict_size", help="The path to the dictionary", default=50000)

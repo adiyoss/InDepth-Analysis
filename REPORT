@@ -1,14 +1,14 @@
 ==================================================================================================
                                     BIG DATA
 ==================================================================================================
-FIRST WORD: 88% accuracy (2000 -> 2000 -> 2)
-LAST WORD: 74% accuracy (2000 -> 2000 -> 2)
-RANDOM WORD: 85% accuracy (2000 -> 2000 -> 2)
-SENTENCE LENGTH (6 bins, arc: 1000 -> 2000 -> 6): 92% accuracy
-SENTENCE LENGTH (8 bins, arc: 1000 -> 2000 -> 8): 86.6% accuracy
-SENTENCE LENGTH (13 bins, arc: 1000 -> 2000 -> 13): 79.6% accuracy
-WORD ORDER: 87% accuracy (3000 -> 3000 -> 2)
-WORD ORDER CHECKER: 63% accuracy (3000 -> 3000 -> 2)
+FIRST WORD: 97% accuracy (2000 -> 2000 -> 2) - Adagrad
+LAST WORD: 93% accuracy (2000 -> 2000 -> 2) - Adagrad
+RANDOM WORD: 90% accuracy (2000 -> 2000 -> 2) - Adagrad // in practice only 18,008 words were sampled from 150000 sentences.
+SENTENCE LENGTH (6 bins, arc: 1000 -> 2000 -> 6): 92% accuracy - Adagrad
+SENTENCE LENGTH (8 bins, arc: 1000 -> 2000 -> 8): 87.4% accuracy - Adagrad
+SENTENCE LENGTH (13 bins, arc: 1000 -> 2000 -> 13): 80% accuracy - Adagrad
+WORD ORDER: 91% accuracy (3000 -> 3000 -> 2) - Adagrad
+WORD ORDER CHECKER: 61% accuracy (3000 -> 3000 -> 2) - Adagrad
 
 DATA STATS TRAIN:
     Number of different first word: 15865, First word stats: 0.317
@@ -46,8 +46,10 @@ SHARED SENTENCES BETWEEN TRAIN, TEST AND VALIDATION
     Percentage from validation: 0.00255
     Percentage from test: 0.00254
 
-In all of the above results the optimizer is Adam.
-Need to find out why does the loss keeps growing - maybe dropout.
+==================================================================================================
+                                   ANALYSIS
+GET GRAPH - use the model of the distance words and test on the all length wordsl.
+
 ==================================================================================================
                                    SMALL DATA
 ==================================================================================================
