@@ -56,12 +56,10 @@ def build_data(word_rep_path, train_idx_path, train_rep_path, test_idx_path, tes
                task=1):
     word_rep = np.load(word_rep_path)
     train_rep = np.load(train_rep_path)
-    # test_rep = np.load(test_rep_path)
+    test_rep = np.load(test_rep_path)
     val_rep = np.load(val_rep_path)
-    rep_size = 1000
+    rep_size = 500
 
-    x_test = None
-    y_test = None
     if (task is Tests.FIRST_WORD) or (task is Tests.LAST_WORD) or (task is Tests.RANDOM_WORD):
         y_size = 2
         x_size = 2 * rep_size
@@ -70,7 +68,7 @@ def build_data(word_rep_path, train_idx_path, train_rep_path, test_idx_path, tes
         val_size = 50000
 
         x_train, y_train = populate_vector(train_idx_path, word_rep, train_rep, train_size, x_size, y_size, rep_size)
-        # x_test, y_test = populate_vector(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
+        x_test, y_test = populate_vector(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
         x_val, y_val = populate_vector(val_idx_path, word_rep, val_rep, val_size, x_size, y_size, rep_size)
     elif task is Tests.SENTENCE_LENGTH:
         y_size = 8
@@ -80,7 +78,7 @@ def build_data(word_rep_path, train_idx_path, train_rep_path, test_idx_path, tes
         val_size = 25000
 
         x_train, y_train = populate_vector(train_idx_path, word_rep, train_rep, train_size, x_size, y_size, rep_size)
-        # x_test, y_test = populate_vector(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
+        x_test, y_test = populate_vector(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
         x_val, y_val = populate_vector(val_idx_path, word_rep, val_rep, val_size, x_size, y_size, rep_size)
     elif task is Tests.WORD_ORDER:
         y_size = 2
@@ -90,7 +88,7 @@ def build_data(word_rep_path, train_idx_path, train_rep_path, test_idx_path, tes
         val_size = 50000
 
         x_train, y_train = populate_vector(train_idx_path, word_rep, train_rep, train_size, x_size, y_size, rep_size)
-        # x_test, y_test = populate_vector(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
+        x_test, y_test = populate_vector(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
         x_val, y_val = populate_vector(val_idx_path, word_rep, val_rep, val_size, x_size, y_size, rep_size)
     elif task is Tests.NEXT_WORD_PREDICTION:
         y_size = 1000
@@ -100,7 +98,7 @@ def build_data(word_rep_path, train_idx_path, train_rep_path, test_idx_path, tes
         val_size = 25000
 
         x_train, y_train = populate_vector_representations(train_idx_path, word_rep, train_rep, train_size, x_size, y_size, rep_size)
-        # x_test, y_test = populate_vector_representations(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
+        x_test, y_test = populate_vector_representations(test_idx_path, word_rep, test_rep, test_size, x_size, y_size, rep_size)
         x_val, y_val = populate_vector_representations(val_idx_path, word_rep, val_rep, val_size, x_size, y_size, rep_size)
     else:
         return None

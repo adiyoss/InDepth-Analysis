@@ -178,6 +178,41 @@ def create_random_word_db(output_path, sen_idx, dict_size=50001):
     fid.close()
 
 
+def create_random_word_db_hard(output_path, sen_idx, word_repr, dict_size=50001):
+    close_vecs = get_close_vecs(word_repr)
+    fid = open(output_path, 'w')
+    for i in range(len(sen_idx)):
+        idx = np.random.randint(len(sen_idx[i][1]))
+        target_wrd_pos = sen_idx[i][1][idx]
+        target_wrd_pos -= 1  # convert from torch to python
+
+        # positive example
+        fid.write("1 ")
+        fid.write(str(str(sen_idx[i][0])))
+        fid.write(" ")
+        fid.write(str(target_wrd_pos))
+        fid.write("\n")
+
+        target_wrd_neg = close_vecs[target_wrd_pos+1] - 1  # convert from torch to python
+        # negative example
+        fid.write("0 ")
+        fid.write(str(str(sen_idx[i][0])))
+        fid.write(" ")
+        fid.write(str(target_wrd_neg))
+        fid.write("\n")
+    fid.close()
+
+
+def get_close_vecs(word_repr):
+    from scipy import spatial
+    tree_rep = spatial.KDTree(word_repr)
+    close_vecs = dict()
+    for i, r in enumerate(word_repr):
+        c = tree_rep.query(r)
+        close_vecs[i] = c[1]
+    return close_vecs
+
+
 def create_following_words_db(output_path, sen_idx):
     """
     Create db for words order, the first word should appear in the somewhere in the first half of the sentence

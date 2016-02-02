@@ -48,7 +48,7 @@ np.random.seed(1237)  # for reproducibility
 #
 # # l = y_hat != np.argmax(y_test, axis=1)
 # # y = [i for i, x in enumerate(l) if x]
-# # np.savetxt("1.txt", y)
+# # np.savetxt("random_1000_acc_enc_dec.txt", y)
 
 from matplotlib import pyplot as plt
 import matplotlib
