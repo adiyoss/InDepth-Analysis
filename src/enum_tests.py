@@ -8,3 +8,4 @@ class Tests(Enum):
     SENTENCE_LENGTH = 4
     WORD_ORDER = 5
     NEXT_WORD_PREDICTION = 6
+    WORD_DISTANCE = 7

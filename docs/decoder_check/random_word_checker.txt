@@ -1,0 +1,42 @@
+Decoder 1000 (only positive examples):
+=====================================
+Random test error: 0.33
+Decoder random test error: 0.42
+
+Number of decoder success when test fails: 2877
+Percentage: 11.51
+
+Decoder 750 (only positive examples):
+=====================================
+Random test error: 0.25
+Decoder random test error: 0.66
+
+Number of decoder success when test fails: 570
+Percentage: 2.28
+
+
+Decoder 500 (only positive examples):
+=====================================
+Random test error: 0.26
+Decoder random test error: 0.81
+
+Number of decoder success when test fails: 83
+Percentage: 0.33
+
+
+Decoder 300 (only positive examples):
+=====================================
+Random test error: 0.32
+Decoder random test error: 0.86
+
+Number of decoder success when test fails: 30
+Percentage: 0.12
+
+
+Decoder 100 (only positive examples):
+=====================================
+Random test error: 0.43
+Decoder random test error: 0.91
+
+Number of decoder success when test fails: 7
+Percentage: 0.03

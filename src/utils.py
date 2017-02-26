@@ -54,7 +54,7 @@ def plot_accuracy_vs_distance(y, y_hat, order_file_path):
     # plt.ylabel('Accuracy')
     # plt.xlabel('Word Distance')
 
-    np.save("w2v_300", plot_acc)
+    np.save("w2v_500", plot_acc)
     # plt.bar(range(len(plot_acc)), plot_acc.values(), align='center')
     # plt.xticks(range(len(plot_acc)), plot_acc.keys())
     # plt.show()
@@ -73,3 +73,56 @@ def plot_accuracy_vs_word_position(path_indices, path_test):
     miss_class_data = dict()
     for id in range(len(miss_class_idx)):
         miss_class_data[id] = test_data[int(miss_class_idx[id])]
+
+
+def read_dictionary(path):
+    d_i2w = dict()
+    d_w2i = dict()
+    with open(path) as fid:
+        lines = fid.readlines()
+        for i, line in enumerate(lines):
+            vals = line.split()
+            d_i2w[i] = vals[0]
+            d_w2i[vals[0]] = i
+    fid.close()
+    return d_i2w, d_w2i
+
+
+dict_skip_i2w = None
+dict_skip_w2i = None
+dict_enc_dec_i2w = None
+dict_enc_dec_w2i = None
+
+
+def enc_dec_2_skip_thoughts_dict(id, dict_enc_dec_path="data/orig/dictionary.txt",
+                                 dict_skip_path="data/skip_thoughts/raw/dictionary.txt"):
+    global dict_skip_i2w
+    global dict_skip_w2i
+    global dict_enc_dec_i2w
+    global dict_enc_dec_w2i
+
+    # read skip-thoughts dictionary
+    if dict_skip_i2w is None or dict_skip_w2i is None:
+        dict_skip_i2w, dict_skip_w2i = read_dictionary(dict_skip_path)
+    # read enc-dec dictionary
+    if dict_enc_dec_i2w is None or dict_enc_dec_w2i is None:
+        dict_enc_dec_i2w, dict_enc_dec_w2i = read_dictionary(dict_enc_dec_path)
+
+    word = dict_enc_dec_i2w[id]
+    if word in dict_skip_w2i:
+        new_id = dict_skip_w2i[word]
+    elif word.lower() in dict_skip_w2i:
+        new_id = dict_skip_w2i[word.lower()]
+    else:
+        new_id = dict_skip_w2i['unknown']
+    return new_id
+
+
+def check_intersection(dict_size=50001):
+    count = 0
+    for i in range(dict_size):
+        id = enc_dec_2_skip_thoughts_dict(i)
+        if id == 1877:
+            count += 1
+    print "Total number: %d" % count
+    print "Percentage from dictionary: %.2f" % (float(count) / dict_size)

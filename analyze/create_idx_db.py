@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 __author__ = 'yossiad'
 premute = np.random.permutation(50001)
@@ -193,7 +194,7 @@ def create_random_word_db_hard(output_path, sen_idx, word_repr, dict_size=50001)
         fid.write(str(target_wrd_pos))
         fid.write("\n")
 
-        target_wrd_neg = close_vecs[target_wrd_pos+1] - 1  # convert from torch to python
+        target_wrd_neg = close_vecs[target_wrd_pos + 1] - 1  # convert from torch to python
         # negative example
         fid.write("0 ")
         fid.write(str(str(sen_idx[i][0])))
@@ -341,3 +342,92 @@ def create_next_word_prediction(output_path, sen_idx):
         fid.write(str(target_wrd_1))
         fid.write("\n")
     fid.close()
+
+
+def random_test_k_closest(output_path, sen_idx, words):
+    from scipy import spatial
+    tree = spatial.KDTree(words, leafsize=1000)
+    count = 0
+    avg_distance = 0
+    cache = dict()
+    for s in range(len(sen_idx)):
+        # sys.stdout.write('\r' + str(s))
+        tmp_words = list()
+        for w in sen_idx[s][1]:
+            if w > 500:
+                tmp_words.append(w)
+        if len(tmp_words) > 0:
+            rand_word_id = tmp_words[np.random.randint(low=0, high=len(tmp_words))] - 1  # minus 1 for torch
+        else:
+            rand_word_id = sen_idx[s][1][
+                               np.random.randint(low=0, high=len(sen_idx[s][1]))] - 1  # minus 1 for torch
+            count += 1
+        if rand_word_id in cache:
+            ids = cache[rand_word_id]
+        else:
+            ids = tree.query(words[rand_word_id], 501)
+            n_ids = tree.query(words[ids[1][1]], 501)
+            avg_distance += ids[0][1]
+            print "==================="
+            print "%.3f, %.3f, %.3f, %.3f, %.3f" % (ids[0][1], ids[0][10], ids[0][50], ids[0][100], ids[0][500])
+            print "%.3f, %.3f, %.3f, %.3f, %.3f" % (n_ids[0][1], n_ids[0][10], n_ids[0][50], n_ids[0][100], n_ids[0][500])
+            print "==================="
+            cache[rand_word_id] = ids
+    print(avg_distance / len(sen_idx))
+
+    # fid_out = open(output_path + 'train.txt', 'w')
+    # count = 0
+    # cache = dict()
+    # for s in range(len(sen_idx)):
+    #     sys.stdout.write('\r' + str(s))
+    #     tmp_words = list()
+    #     for w in sen_idx[s][1]:
+    #         if w > 500:
+    #             tmp_words.append(w)
+    #     if len(tmp_words) > 0:
+    #         rand_word_id = tmp_words[np.random.randint(low=0, high=len(tmp_words))] - 1  # minus 1 for torch
+    #     else:
+    #         rand_word_id = sen_idx[s][1][
+    #                            np.random.randint(low=0, high=len(sen_idx[s][1]))] - 1  # minus 1 for torch
+    #         count += 1
+    #     if rand_word_id in cache:
+    #         ids = cache[rand_word_id]
+    #     else:
+    #         ids = tree.query(words[rand_word_id], 501)[1]
+    #         cache[rand_word_id] = ids
+    #     fid_out.write(
+    #         str(s) + ' ' + str(ids[0]) + ' ' + str(ids[1]) + ' ' + str(ids[10]) + ' ' + str(ids[50]) + ' ' + str(
+    #                 ids[100]) + ' ' + str(ids[500]) + '\n')
+    # fid_out.close()
+    print '\nNumber of under 500: %d' % count
+
+    # x_ranges = [0, 1, 10, 50, 100]
+    # y_ranges = [10, 50, 100, 500]
+    # for x in x_ranges:
+    #     for y in y_ranges:
+    #         print('======' + str(x) + '_' + str(y) + '======')
+    #         if y <= x:
+    #             continue
+    #         fid_out = open(output_path + str(x) + '_' + str(y) + '.txt', 'w')
+    #         count = 0
+    #         for s in range(len(sen_idx)):
+    #             sys.stdout.write('\r' + str(s))
+    #             tmp_words = list()
+    #             for w in sen_idx[s][1]:
+    #                 if w > 500:
+    #                     tmp_words.append(w)
+    #             if len(tmp_words) > 0:
+    #                 rand_word_id = tmp_words[np.random.randint(low=0, high=len(tmp_words))] - 1  # minus 1 for torch
+    #             else:
+    #                 rand_word_id = sen_idx[s][1][
+    #                                    np.random.randint(low=0, high=len(sen_idx[s][1]))] - 1  # minus 1 for torch
+    #                 count += 1
+    #             if x == 0:
+    #                 w_x = rand_word_id
+    #             else:
+    #                 w_x = tree.query(words[rand_word_id], (x + 1))[1][x]
+    #             w_y = tree.query(words[rand_word_id], y + 1)[1][y]
+    #             fid_out.write('1 ' + str(s) + ' ' + str(w_x) + '\n')
+    #             fid_out.write('0 ' + str(s) + ' ' + str(w_y) + '\n')
+    #         fid_out.close()
+    #         print 'Number of under 500: %d' % count

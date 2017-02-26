@@ -48,11 +48,17 @@ def read_dictionary(dict_path, wr_path):
         raw_words[i] = lines[i][:-1]
 
     words = list()
-    fid = open(wr_path)
-    lines = fid.readlines()
-    fid.close()
-    for i in range(len(lines) - 1):
-        repr = [float(x) for x in lines[i][:-1].split()]
-        words.append([raw_words[i], repr])
+    if wr_path.endswith('.txt'):
+        fid = open(wr_path)
+        lines = fid.readlines()
+        fid.close()
+        for i in range(len(lines) - 1):
+            repr = [float(x) for x in lines[i][:-1].split()]
+            words.append([raw_words[i], repr])
+    elif wr_path.endswith('.npy'):
+        import numpy as np
+        words_rep = np.load(wr_path)
+        for i in range(len(words_rep) - 1):
+            words.append([raw_words[i], words_rep[i]])
     return words
 

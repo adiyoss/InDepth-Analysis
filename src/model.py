@@ -10,7 +10,7 @@ __author__ = 'yossiadi'
 theano_mode = mode.FAST_RUN
 
 
-def build_model(input_dim=2000, output_dim=2, drop_out=0.8):
+def build_model(input_dim=2000, output_dim=2, drop_out=0.9):
     # CLASSIFICATION
     h_layer_size = input_dim
     model = Sequential()
@@ -22,7 +22,7 @@ def build_model(input_dim=2000, output_dim=2, drop_out=0.8):
 
     # optimizer = SGD(lr=0.01, momentum=0.9, nesterov=True)
     optimizer = Adagrad()
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, theano_mode=theano_mode)
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
 
@@ -38,7 +38,3 @@ def build_model(input_dim=2000, output_dim=2, drop_out=0.8):
     # model.compile(loss='mse', optimizer=optimizer, theano_mode=theano_mode)
     #
     # return model
-
-
-
-

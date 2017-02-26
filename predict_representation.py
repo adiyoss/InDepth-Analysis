@@ -3,7 +3,7 @@ from __future__ import print_function
 
 import numpy as np
 import src.model as m
-import src.generate_data as gd
+import src.generate_data_old as gd
 import src.utils as utils
 from src.enum_tests import Tests
 from scipy import spatial
@@ -59,27 +59,27 @@ font = {'family': 'normal',
 matplotlib.rc('font', **font)
 
 # BAR PLOT
-s2s = np.load("s2s.npy")
-w2v = np.load("w2v.npy")
-w2v_300 = np.load("w2v_300.npy")
+s2s = np.load("enc_dec_500.npy")
+# w2v = np.load("w2v.npy")
+w2v_300 = np.load("w2v_100.npy")
 
 x = dict()
 y = dict()
 z = dict()
 
 s2s_x = str(s2s).split(",")
-w2v_x = str(w2v).split(",")
+# w2v_x = str(w2v).split(",")
 w2v_300_x = str(w2v_300).split(",")
 
 for i in range(len(s2s_x)):
     if ":" in s2s_x[i]:
         if "}" not in s2s_x[i]:
             x[i + 1] = float(s2s_x[i].split(":")[1])
-            y[i + 1] = float(w2v_x[i].split(":")[1])
+            # y[i + 1] = float(w2v_x[i].split(":")[1])
             z[i + 1] = float(w2v_300_x[i].split(":")[1])
         else:
             x[i + 1] = float(s2s_x[i].split(":")[1][:-1])
-            y[i + 1] = float(w2v_x[i].split(":")[1][:-1])
+            # y[i + 1] = float(w2v_x[i].split(":")[1][:-1])
             z[i + 1] = float(w2v_300_x[i].split(":")[1][:-1])
 
 
@@ -91,8 +91,8 @@ for item in x:
     t_w2v[i] = z[item]
     i += 1
 
-np.save("t_enc", t_enc)
-np.save("t_w2v", t_w2v)
+np.savetxt("enc_dec_500", t_enc)
+np.savetxt("w2v_100", t_w2v)
 
 bins = ['1', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15', '17', '19', '21', '23']
 loc = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]

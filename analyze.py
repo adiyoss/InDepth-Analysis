@@ -1,6 +1,6 @@
 import numpy as np
 import src.model as m
-import src.generate_data as gd
+import src.generate_data_old as gd
 import src.utils as utils
 
 __author__ = 'yossiadi'

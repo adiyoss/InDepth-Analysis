@@ -2,34 +2,41 @@ import matplotlib
 import numpy as np
 import operator
 from matplotlib import pyplot as plt
+from scipy import stats
 
 
 def check_norms(repr_path, labels):
     reprs = np.load(repr_path)
     norms = dict()
-    plot_norm = list()
+    # plot_norm = list()
     for i, r in enumerate(reprs):
         n = np.linalg.norm(r)
         l = labels[i]
         if l not in norms:
             norms[l] = list()
         norms[l].append(n)
-        plot_norm.append(n)
+        # plot_norm.append(n)
 
-    # # plot_norm = list()
-    # for n in norms:
-    #     avg = np.average(norms[n])
-    #     # plot_norm.append(avg)
-    #     print "Length = %d, average norm = %.3f" % (n, avg)
+    plot_norm = list()
+    e = list()
+    for n in norms:
+        avg = np.average(norms[n])
+        std = np.std(norms[n])
+        plot_norm.append(avg)
+        e.append(std)
+        print "Length = %d, average norm = %.3f" % (n, avg)
+        print "Length = %d, std norm = %.3f" % (n, std)
 
     font = {'family': 'normal',
             'weight': 'bold',
             'size': 18}
     matplotlib.rc('font', **font)
 
-    plt.scatter(labels, plot_norm)
+    # np.savetxt('w2v_300.txt', plot_norm)
+    # plt.errorbar(range(len(plot_norm)), plot_norm, e, linestyle='None', marker='^')
+    plt.scatter(range(len(plot_norm)), plot_norm)
     # plt.bar(range(len(plot_norm)), plot_norm, align='center', color='b', width=0.8)
-    # plt.ylim(0, 1)
+    plt.ylim(0.3, 0.6)
     plt.xlabel("Lengths")
     plt.ylabel("Norm")
     # plt.xticks(range(len(plot_norm)), [int(l)+5 for l in range(len(plot_norm))], fontsize=14)
@@ -62,26 +69,44 @@ def accuracy_vs_sen_len(random_acc_path, labels):
 
     for i, val in enumerate(rand_acc):
         l = labels[(i % 25000)]
+        if l > 32:
+            l = 32
         if l not in lens:
             lens[l] = list()
         lens[l].append(val)
 
+    c = 0
     acc_plot = list()
     for l in lens:
         acc_plot.append((1 - np.average(lens[l])))
-        print "Length = %d, accuracy = %.3f" % (l, (1 - np.average(lens[l])))
+        c += len(lens[l])
+        print "Length = %d, accuracy = %.3f, num = %.3f" % (l, (1 - np.average(lens[l])), len(lens[l]))
+    print 'Total: ', c
 
     font = {'family': 'normal',
             'weight': 'bold',
             'size': 20}
     matplotlib.rc('font', **font)
 
+    np.savetxt('random_acc_skip.txt', np.asarray(acc_plot))
+    y_point = np.arange(len(acc_plot))
+    m, b = np.polyfit(np.asarray(acc_plot), np.asarray(y_point), 1)
+    x = np.random.rand(1000)
+    y = list()
+    for i in x:
+        y.append(i * m + b)
+    print(m)
+
+    plt.subplot(211)
     plt.bar(range(len(acc_plot)), acc_plot, align='center', color='b', width=0.8)
     plt.xlabel("Sentence length")
     plt.ylabel("Random word accuracy")
-    plt.ylim(0.6, 1)
+    plt.ylim(0.5, 1)
     plt.xticks(range(len(lens)), [int(l) for l in lens], fontsize=14)
     plt.yticks(fontsize=14)
+
+    plt.subplot(212)
+    plt.plot(x, y)
 
     plt.show()
 
@@ -182,18 +207,59 @@ def sen_rep_plot(sen_rep, lens):
     plt.colorbar(im)
     plt.show()
 
+
+def central_limit_check(path, lengths, w_p):
+    data_tes = np.load(path)
+    words = np.load(w_p)
+    mue = np.mean(words, axis=0)
+    sigma = np.std(words, axis=0)
+
+    count = 0.0
+    for x, l in zip(data_tes, lengths):
+        v = x - mue * np.sqrt(l)
+        c_t = 0
+        for i, fit in enumerate(v):
+            if fit > (3 * sigma[i]) or fit < (-3 * sigma[i]):
+                c_t += 1
+        if c_t > len(v)*0.03:
+            count += 1
+    print(count/len(data_tes))*100
+
+    # c = 0.0
+    # for i in p:
+    #     if i > 0.0001:
+    #         c += 1
+    # print(c)
+
+    # x_hat = np.mean(data, axis=0)
+    # mue = np.mean(data)
+    # std = np.std(data, axis=0)
+    # sqrt = np.sqrt(len(data))
+    # data_n = (x_hat - mue) / sqrt
+    # count = 0.0
+    #
+    # for i, r in enumerate(data_n):
+    #     if r > x_hat[i] + 2 * std[i] or r < x_hat[i] - 2 * std[i]:
+    #         count += 1
+    # print(count/len(data_n))
+
+
 idx_path = "/Users/yossiadi/Projects/representation_analysis/data/orig/test.txt"
-repr_path = "/Users/yossiadi/Projects/representation_analysis/data/w2v_1000_win5/test.rep.npy"
-# rand_path = "../docs/rand_acc/enc_dec/random_100_acc_enc_dec.txt"
+repr_path = "/Users/yossiadi/Projects/representation_analysis/data/w2v_300_win5/test.rep.npy"
+words_p = "/Users/yossiadi/Projects/representation_analysis/data/w2v_300_win5/word_repr.npy"
+# rand_path = "../docs/rand_acc/skip/random_skip.txt"
 # rand_path_idx = "../data/idx/random_word/test.txt"
 
 labels = get_lengths(idx_path)
-check_norms(repr_path, labels)
+central_limit_check(repr_path, labels, words_p)
 
-# sen_rep_plot(np.load(repr_path), labels)
-
-# accuracy_vs_word_location(rand_path, rand_path_idx, idx_path, labels)
-
-# accuracy_vs_sen_len(rand_path, labels)
-
+# labels = get_lengths(idx_path)
 # check_norms(repr_path, labels)
+#
+# # sen_rep_plot(np.load(repr_path), labels)
+#
+# # accuracy_vs_word_location(rand_path, rand_path_idx, idx_path, labels)
+#
+# # accuracy_vs_sen_len(rand_path, labels)
+#
+# # check_norms(repr_path, labels)
